@@ -16,16 +16,19 @@ namespace GiveawayFreeSteamBot.Controllers
     public class GiveawayController : ControllerBase
     {
         private readonly IGiveawayService _giveawayService;
+        private readonly IDiscordService _discordService;
 
-        public GiveawayController(IGiveawayService giveawayService)
+        public GiveawayController(IGiveawayService giveawayService, IDiscordService discordService)
         {
             _giveawayService = giveawayService;
+            _discordService = discordService;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Giveaway>), StatusCodes.Status200OK)]
         public async Task<List<Giveaway>> Get()
         {
+            await _discordService.Send();
             var giveaways = await _giveawayService.GetGiveaways();
             return giveaways;
         }
