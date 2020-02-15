@@ -28,8 +28,9 @@ namespace GiveawayFreeSteamBot.Controllers
         [ProducesResponseType(typeof(IEnumerable<Giveaway>), StatusCodes.Status200OK)]
         public async Task<List<Giveaway>> Get()
         {
-            await _discordService.Send();
             var giveaways = await _giveawayService.GetGiveaways();
+            await _discordService.Send("");
+
             return giveaways;
         }
     }

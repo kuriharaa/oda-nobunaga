@@ -7,6 +7,6 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
 {
     public interface IDiscordService
     {
-        Task Send();
+        Task Send(string url);
     }
 }

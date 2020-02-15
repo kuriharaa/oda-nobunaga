@@ -9,17 +9,17 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
 {
     public class DiscordService : IDiscordService
     {
-        public async Task Send()
+        public async Task Send(string url)
         {
             using (var client = new DiscordWebhookClient(""))
             {
                 var embed = new EmbedBuilder
                 {
-                    Title = "Test Embed",
-                    Description = "Test Description"
+                    Title = "",
+                    Description = ""
                 };
 
-                await client.SendMessageAsync(text: "Send a message to this webhook!", embeds: new[] { embed.Build() });
+                await client.SendMessageAsync(text: url, embeds: new[] { embed.Build() });
             }
         }
     }

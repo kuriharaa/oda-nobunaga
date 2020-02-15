@@ -29,7 +29,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
                 {
                     var feedItem = new Giveaway
                     {
-                        Id = feedParser.GetItemId(feedItemHtml),
+                        ExternalId = feedParser.GetItemId(feedItemHtml),
                         Url = feedParser.GetItemLink(feedItemHtml),
                         Status = feedParser.GetItemStatus(feedItemHtml)
                     };
