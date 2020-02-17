@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories
 {
-    interface IGiveawayRepository
+    public interface IGiveawayRepository
     {
+        public Task<List<Giveaway>> GetActive();
+        public MongoGiveaway GetMongoGiveaway(object val);
         public Task AddOrSkip(Giveaway giveaway);
         public Task Add(IMongoCollection<Giveaway> collection, Giveaway giveaway);
-        public Task UpdateStatus(IMongoCollection<Giveaway> collection, Giveaway feed, FilterDefinition<Giveaway> filter);
+        public Task UpdateStatus(Giveaway feed);
     }
 }

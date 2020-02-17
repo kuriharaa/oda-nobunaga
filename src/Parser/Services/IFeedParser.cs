@@ -10,7 +10,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
     {
         string GetItemId(HtmlNode html);
         string GetItemLink(HtmlNode html);
-        string GetItemStatus(HtmlNode html);
-        HtmlNodeCollection GetItems(HtmlDocument html);
+        //string GetItemStatus(HtmlNode html);
+        List<HtmlNode> GetItems(HtmlDocument html);
     }
 }

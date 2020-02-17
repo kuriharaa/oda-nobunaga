@@ -1,5 +1,6 @@
 ﻿using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser.Exceptions;
+using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,8 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
                     {
                         ExternalId = feedParser.GetItemId(feedItemHtml),
                         Url = feedParser.GetItemLink(feedItemHtml),
-                        Status = feedParser.GetItemStatus(feedItemHtml)
+                        Sent = false
                     };
-
                     feedItemsList.Add(feedItem);
                 }
 

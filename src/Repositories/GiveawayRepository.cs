@@ -1,4 +1,6 @@
 ﻿using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -9,14 +11,20 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories
 {
     public class GiveawayRepository : IGiveawayRepository
     {
-        MongoDbContext _context = new MongoDbContext();
+        private readonly IOptions<MongoConfig> _mongoConfig;
+        public GiveawayRepository(IOptions<MongoConfig> mongoConfig)
+        {
+            _mongoConfig = mongoConfig;
+        }
+
         public async Task AddOrSkip(Giveaway giveaway)
         {
-            IMongoCollection<Giveaway> collection = _context.GetCollectionEntries("collection name");
-            FilterDefinition<Giveaway> filter = Builders<Giveaway>.Filter.Eq(s => s.ExternalId, giveaway.ExternalId);
-            var entry = collection.Find(filter);
-            if (!entry.Any())
-                await Add(collection, giveaway);
+            MongoGiveaway mongoGiveaway = GetMongoGiveaway(giveaway.ExternalId);
+
+            if (!mongoGiveaway.entry.Any())
+            {
+                await Add(mongoGiveaway.collection, giveaway);
+            }
         }
 
         public async Task Add(IMongoCollection<Giveaway> collection, Giveaway giveaway)
@@ -31,20 +39,49 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories
             }
         }
 
-        public async Task UpdateStatus(IMongoCollection<Giveaway> collection, Giveaway giveaway, FilterDefinition<Giveaway> filter)
+        public async Task UpdateStatus(Giveaway giveaway)
         {
+            MongoGiveaway mongoGiveaway = GetMongoGiveaway(giveaway.ExternalId);
+
             UpdateDefinition<Giveaway> update = Builders<Giveaway>.Update
                 .Set(s => s.Url, giveaway.Url)
-                .Set(s => s.Status, giveaway.Status);
+                .Set(s => s.Sent, true);
 
             try
             {
-                await collection.UpdateOneAsync(filter, update);
+                await mongoGiveaway.collection.UpdateOneAsync(mongoGiveaway.filter, update);
             }
             catch (Exception e)
             {
                 throw new MongoStoreException($"Fatal error happened when updating data to mongodb {giveaway.ExternalId}", e);
             }
+        }
+
+        public async Task<List<Giveaway>> GetActive()
+        {
+            return await GetMongoGiveaway(false)
+                         .entry
+                         .ToListAsync();
+        }
+
+        public MongoGiveaway GetMongoGiveaway(object val)
+        {
+            FilterDefinition<Giveaway> filter;
+            string connStr = _mongoConfig.Value.connectionString;
+            string dbName = _mongoConfig.Value.dbName;
+            MongoDbContext _context = new MongoDbContext(connStr, dbName);
+            IMongoCollection<Giveaway> collection = _context.GetCollectionEntries(_mongoConfig.Value.collectionName);
+            if (val is bool)
+                filter = Builders<Giveaway>.Filter.Eq(s => s.Sent, (bool)val);
+            else
+                filter = Builders<Giveaway>.Filter.Eq(s => s.ExternalId, (string)val);
+            IFindFluent<Giveaway, Giveaway> entry = collection.Find(filter);
+            return new MongoGiveaway
+            {
+                collection = collection,
+                entry = entry,
+                filter = filter
+            };
         }
     }
 }

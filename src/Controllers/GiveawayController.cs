@@ -29,7 +29,10 @@ namespace GiveawayFreeSteamBot.Controllers
         public async Task<List<Giveaway>> Get()
         {
             var giveaways = await _giveawayService.GetGiveaways();
-            await _discordService.Send("");
+            foreach (var giveaway in giveaways)
+            {
+                await _discordService.Send(giveaway);
+            }
 
             return giveaways;
         }

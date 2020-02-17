@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +12,16 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
     {
         private readonly IMongoDatabase _mongoDb;
 
-        public MongoDbContext()
+        public MongoDbContext(string connectionString, string dbName)
         {
-            var client = new MongoClient("");
-            _mongoDb = client.GetDatabase("");
+            var client = new MongoClient(connectionString);
+            _mongoDb = client.GetDatabase(dbName);
         }
 
-        public IMongoCollection<Giveaway> GetCollectionEntries(string name)
+        public IMongoCollection<Giveaway> GetCollectionEntries(string collectionName)
         {
-            return _mongoDb.GetCollection<Giveaway>(name);
+            return _mongoDb.GetCollection<Giveaway>(collectionName);
         }
+
     }
 }

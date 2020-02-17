@@ -21,24 +21,29 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
                        .Attributes["href"]?
                        .Value;
         }
-        public string GetItemStatus(HtmlNode html)
+        //public string GetItemStatus(HtmlNode html)
+        //{
+        //    return (html.ChildNodes
+        //               .FindFirst("div")?
+        //               .ChildNodes
+        //               .FindFirst("header")?
+        //               .ChildNodes
+        //               .FindFirst("div")?
+        //               .ChildNodes
+        //               .FindFirst("span")?
+        //               .InnerText?
+        //               .Trim()
+        //               .Split('/')
+        //               .LastOrDefault()
+        //               );
+        //}
+        public List<HtmlNode> GetItems(HtmlDocument html)
         {
-            return html.ChildNodes
-                       .FindFirst("div")?
-                       .ChildNodes
-                       .FindFirst("header")?
-                       .ChildNodes
-                       .FindFirst("div")?
-                       .ChildNodes
-                       .FindFirst("span")?
-                       .InnerText?
-                       .Trim()
-                       .Split('/')
-                       .LastOrDefault();
-        }
-        public HtmlNodeCollection GetItems(HtmlDocument html)
-        {
-            return html.DocumentNode.SelectNodes("//article");
+            return html.DocumentNode
+                       .SelectNodes("//article")
+                       .Where(c =>
+                       c.InnerHtml.Contains("/active/") ||
+                       c.InnerHtml.Contains("/interesnoe/")).ToList();
         }
     }
 }
