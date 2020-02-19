@@ -13,9 +13,10 @@ WORKDIR /src
 COPY src/*.sln .
 COPY src/*.csproj src/
 #COPY ["GiveawayFreeSteamBot.csproj", ""]
-#RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
-RUN dotnet restore
 COPY . .
+RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
+#RUN dotnet restore
+
 
 #WORKDIR "/src/."
 #RUN dotnet build "GiveawayFreeSteamBot.csproj" -c Release -o /app/build
