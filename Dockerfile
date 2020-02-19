@@ -8,14 +8,14 @@
 #EXPOSE 80
 #EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
-COPY src/*.sln .
-COPY src/*.csproj src/
+#COPY src/*.sln .
+COPY src/src/*.csproj src/src/
 #COPY ["GiveawayFreeSteamBot.csproj", ""]
 COPY . .
-RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
-#RUN dotnet restore
+#RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
+RUN dotnet restore src/src/GiveawayFreeSteamBot.csproj
 
 
 #WORKDIR "/src/."
@@ -27,7 +27,7 @@ RUN dotnet publish -c Release -o /src/publish
 
 #FROM base AS final
 #FROM base AS runtime
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 AS runtime
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS runtime
 WORKDIR /app
 COPY --from=publish /src/publish .
 #ENTRYPOINT ["dotnet", "GiveawayFreeSteamBot.dll"]
