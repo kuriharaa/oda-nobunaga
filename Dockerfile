@@ -11,11 +11,11 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 #COPY src/*.sln .
-COPY src/src/*.csproj src/src/
-#COPY ["GiveawayFreeSteamBot.csproj", ""]
+#COPY src/src/*.csproj src/src/
+COPY ["GiveawayFreeSteamBot.csproj", ""]
 COPY . .
-#RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
-RUN dotnet restore src/src/GiveawayFreeSteamBot.csproj
+RUN dotnet restore "./GiveawayFreeSteamBot.csproj"
+#RUN dotnet restore src/src/GiveawayFreeSteamBot.csproj
 
 
 #WORKDIR "/src/."
