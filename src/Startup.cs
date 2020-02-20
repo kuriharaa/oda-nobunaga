@@ -48,12 +48,6 @@ namespace GiveawayFreeSteamBot
             services.AddScoped<IFeedParser, FeedParser>();
             services.AddScoped<IDiscordService, DiscordService>();
             services.AddScoped<IGiveawayRepository, GiveawayRepository>();
-            //services.Configure<MongoConfig>(options =>
-            //{
-            //    options.connectionString = Configuration["mongo:connectionString"];
-            //    options.dbName = Configuration["mongo:dbName"];
-            //    options.collectionName = Configuration["mongo:collectionName"];
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
