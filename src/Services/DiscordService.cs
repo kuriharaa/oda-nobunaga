@@ -22,7 +22,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
 
         public async Task Send(Giveaway giveaway)
         {
-            using (var client = new DiscordWebhookClient(_configuration["url:webhook"]))
+            using (var client = new DiscordWebhookClient(MongoConfig.webhook))
             {
                 //var embed = new EmbedBuilder
                 //{

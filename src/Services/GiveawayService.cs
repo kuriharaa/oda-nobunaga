@@ -27,7 +27,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
 
         public async Task<List<Giveaway>> GetGiveaways()
         {
-            var giveaways = await _feedConnector.ParseFeed(_configuration["url:feed"]);
+            var giveaways = await _feedConnector.ParseFeed(MongoConfig.feedUrl);
             foreach (Giveaway giveaway in giveaways)
             {
                 await _giveawayRepository.AddOrSkip(giveaway);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
 {
-    public class MongoDbContext
+    public class MongoDbContext<T>
     {
         private readonly IMongoDatabase _mongoDb;
 
@@ -18,9 +18,9 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
             _mongoDb = client.GetDatabase(dbName);
         }
 
-        public IMongoCollection<Giveaway> GetCollectionEntries(string collectionName)
+        public IMongoCollection<T> GetCollectionEntries(string collectionName)
         {
-            return _mongoDb.GetCollection<Giveaway>(collectionName);
+            return _mongoDb.GetCollection<T>(collectionName);
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
+using GiveawayFreeSteamBot.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -11,11 +12,11 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories
 {
     public class GiveawayRepository : IGiveawayRepository
     {
-        private readonly IOptions<MongoConfig> _mongoConfig;
-        public GiveawayRepository(IOptions<MongoConfig> mongoConfig)
-        {
-            _mongoConfig = mongoConfig;
-        }
+        //private readonly IOptions<MongoConfig> _mongoConfig;
+        //public GiveawayRepository(IOptions<MongoConfig> mongoConfig)
+        //{
+        //    _mongoConfig = mongoConfig;
+        //}
 
         public async Task AddOrSkip(Giveaway giveaway)
         {
@@ -67,10 +68,8 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories
         public MongoGiveaway GetMongoGiveaway(object val)
         {
             FilterDefinition<Giveaway> filter;
-            string connStr = _mongoConfig.Value.connectionString;
-            string dbName = _mongoConfig.Value.dbName;
-            MongoDbContext _context = new MongoDbContext(connStr, dbName);
-            IMongoCollection<Giveaway> collection = _context.GetCollectionEntries(_mongoConfig.Value.collectionName);
+            MongoDbContext<Giveaway> _context = new MongoDbContext<Giveaway>(MongoConfig.connectionString, MongoConfig.dbName);
+            IMongoCollection<Giveaway> collection = _context.GetCollectionEntries(MongoConfig.collection);
             if (val is bool)
                 filter = Builders<Giveaway>.Filter.Eq(s => s.Sent, (bool)val);
             else
