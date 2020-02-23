@@ -1,6 +1,7 @@
 ﻿using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser.Exceptions;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +29,18 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
 
                 foreach (var feedItemHtml in feedItemsHtml)
                 {
+                    string feedItemUrl = feedParser.GetItemLink(feedItemHtml);
+                    HtmlDocument innerHtml = await _feedProvider.GetFeedHtml(feedItemUrl);
+                    //html decode
                     var feedItem = new Giveaway
                     {
                         ExternalId = feedParser.GetItemId(feedItemHtml),
-                        Url = feedParser.GetItemLink(feedItemHtml),
-                        Sent = false
+                        Url = feedItemUrl,
+                        Sent = false,
+                        PhotoUrl = feedParser.GetItemPhotoUrl(feedItemHtml),
+                        Store = feedParser.GetItemStore(feedItemHtml),
+                        Title = feedParser.GetItemTitle(feedItemHtml),
+                        DirectUrl = feedParser.GetItemDirectUrl(innerHtml)
                     };
                     feedItemsList.Add(feedItem);
                 }

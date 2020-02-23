@@ -14,6 +14,9 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
         public string ExternalId { get; set; }
         public string Url { get; set; }
         public bool Sent { get; set; }
-
+        public string Title { get; set; }
+        public string Store { get; set; }
+        public string DirectUrl { get; set; }
+        public string PhotoUrl { get; set; }
     }
 }

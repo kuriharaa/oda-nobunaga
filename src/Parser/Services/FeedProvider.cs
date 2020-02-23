@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
@@ -15,6 +16,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
             try
             {
                 var web = new HtmlWeb();
+                Thread.Sleep(3000);
                 var doc = await web.LoadFromWebAsync(feedUrl);
                 return doc;
             }

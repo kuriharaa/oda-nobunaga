@@ -24,15 +24,18 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
         {
             using (var client = new DiscordWebhookClient(MongoConfig.webhook))
             {
-                //var embed = new EmbedBuilder
-                //{
-                //    Title = "",
-                //    Description = ""
-                //};
+                var embed = new EmbedBuilder
+                {
+                    Title = giveaway.Title,
+                    Color = Color.Magenta,
+                    ImageUrl = giveaway.PhotoUrl,
+                    Url = string.IsNullOrEmpty(giveaway.DirectUrl) ? giveaway.Url : giveaway.DirectUrl,
+                    Author = new EmbedAuthorBuilder().WithName(giveaway.Store)
+                };
 
                 try
                 {
-                    await client.SendMessageAsync(text: giveaway.Url/*, embeds: new[] { embed.Build() }*/);
+                    await client.SendMessageAsync(text: $"@everyone \n its free real estate", embeds: new[] { embed.Build() }, isTTS: true);
                 }
                 catch(Exception e)
                 {
