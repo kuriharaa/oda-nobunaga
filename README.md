@@ -1,4 +1,13 @@
 # oda nobunaga
 
-## description
-A Discord bot for getting notifications about new steam, gog, origin, uplay, epic games giveaways.
+### description
+
+discord notifier for getting announcement about new steam, gog, origin, uplay, eg giveaways.
+
+### technologies
+
+* .net core
+* mongodb atlas
+* [discord-net](https://github.com/discord-net/Discord.Net)
+* docker
+* heroku
