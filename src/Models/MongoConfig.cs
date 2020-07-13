@@ -12,7 +12,8 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
         public const string dbName = "FreeGiveaways";
         public const string collection = "Giveaways";
         public const string config = "Config";
+        public const string channels = "Channels";
         public static string feedUrl = UrlExtension.GetUrl("feedUrl");
-        public static string webhook = UrlExtension.GetUrl("webhook");
+        public static string webhook = "https://discord.com/api/webhooks";
     }
 }

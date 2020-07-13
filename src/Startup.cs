@@ -6,8 +6,10 @@ using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services;
+using GiveawayFreeSteamBot.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -42,12 +44,14 @@ namespace GiveawayFreeSteamBot
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IGiveawayService, GiveawayService>();
             services.AddScoped<IFeedConnector, FeedConnector>();
             services.AddScoped<IFeedProvider, FeedProvider>();
             services.AddScoped<IFeedParser, FeedParser>();
             services.AddScoped<IDiscordService, DiscordService>();
             services.AddScoped<IGiveawayRepository, GiveawayRepository>();
+            services.AddScoped<IDiscordRepository, DiscordRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,7 +2,10 @@
 using Discord.Webhook;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models;
 using GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Repositories;
+using GiveawayFreeSteamBot.Models;
+using GiveawayFreeSteamBot.Repositories;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +16,40 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
     public class DiscordService : IDiscordService
     {
         private readonly IGiveawayRepository _giveawayRepository;
+        private readonly IDiscordRepository _discordRepository;
         private readonly IConfiguration _configuration;
-        public DiscordService(IGiveawayRepository giveawayRepository, IConfiguration configuration)
+        public DiscordService(IGiveawayRepository giveawayRepository, IDiscordRepository discordRepository, IConfiguration configuration)
         {
             _giveawayRepository = giveawayRepository;
+            _discordRepository = discordRepository;
             _configuration = configuration;
         }
 
-        public async Task Send(Giveaway giveaway)
+        public async Task<List<Channel>> GetChannels()
         {
-            using (var client = new DiscordWebhookClient(MongoConfig.webhook))
+            return await _discordRepository.GetChannels();
+        }
+
+        public async Task Add(Channel channel)
+        {
+            IMongoCollection<Channel> collection = _discordRepository.GetChannelCollection();
+            IFindFluent<Channel, Channel> entry = _discordRepository.GetChannelEntry(collection, channel);
+            if (!entry.Any())
+            {
+                try
+                {
+                    await collection.InsertOneAsync(channel);
+                }
+                catch (Exception e)
+                {
+                    throw new MongoStoreException($"fatal error happened when adding channel data to mongodb", e);
+                }
+            }
+        }
+
+        public async Task Send(Giveaway giveaway, string webhook)
+        {
+            using (var client = new DiscordWebhookClient(webhook))
             {
                 var embed = new EmbedBuilder
                 {
