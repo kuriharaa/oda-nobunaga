@@ -52,6 +52,11 @@ namespace GiveawayFreeSteamBot
             services.AddScoped<IDiscordService, DiscordService>();
             services.AddScoped<IGiveawayRepository, GiveawayRepository>();
             services.AddScoped<IDiscordRepository, DiscordRepository>();
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            //    options.HttpsPort = 5001;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

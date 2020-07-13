@@ -32,10 +32,15 @@ namespace GiveawayFreeSteamBot.Controllers
         [HttpPost("a")]
         public async Task<ActionResult> AddChannel(string url)
         {
-            if (!string.IsNullOrEmpty(url) && url.StartsWith(MongoConfig.webhook) && WebhookChecker.IsWebhook(url))
+            if (!string.IsNullOrEmpty(url) && 
+                (url.StartsWith(MongoConfig.webhook) || url.StartsWith(MongoConfig.webhookOld)) && 
+                WebhookChecker.IsWebhook(url))
             {
-                var ip = _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-                await _discordService.Add(new Channel() { name = ip, value = Regex.Replace(url, @"\s+", "") });
+                await _discordService.Add(new Channel() 
+                { 
+                    name = _accessor.HttpContext?.Connection?.RemoteIpAddress?.ToString(), 
+                    value = Regex.Replace(url.Replace(MongoConfig.webhook, MongoConfig.webhookOld), @"\s+", "") 
+                });
 
                 return StatusCode(201);
             }
