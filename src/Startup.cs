@@ -52,6 +52,13 @@ namespace GiveawayFreeSteamBot
             services.AddScoped<IDiscordService, DiscordService>();
             services.AddScoped<IGiveawayRepository, GiveawayRepository>();
             services.AddScoped<IDiscordRepository, DiscordRepository>();
+            services.AddCors(o => o.AddPolicy("AllowAny", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             //services.AddHttpsRedirection(options =>
             //{
             //    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
@@ -66,6 +73,8 @@ namespace GiveawayFreeSteamBot
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowAny");
 
             app.UseHttpsRedirection();
 
