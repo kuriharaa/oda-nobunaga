@@ -16,6 +16,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Models
         public static string feedUrl = UrlExtension.GetUrl("feedUrl");
         public static string webhook = "https://discord.com/api/webhooks";
         public static string webhookOld = "https://discordapp.com/api/webhooks";
+        public static string clientUrl = "http://nobunaga.surge.sh";
 
     }
 }

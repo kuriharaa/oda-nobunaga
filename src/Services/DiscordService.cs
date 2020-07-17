@@ -63,7 +63,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Services
                 try
                 {
                     await client.SendMessageAsync(
-                                                    text: $"@everyone \n its free real estate \n add notifier to your [discord server](http://nobunaga.surge.sh)", 
+                                                    text: $"@everyone \n its free real estate \n add notifier to your [discord server]({MongoConfig.clientUrl})", 
                                                     embeds: new[] { embed.Build() }, 
                                                     isTTS: true
                     );

@@ -44,7 +44,7 @@ namespace GiveawayFreeSteamBot.GiveawayDiscordNotifier.src.Parser
                        .FindFirst("a")?
                        .ChildNodes
                        .FindFirst("img")?
-                       .Attributes["src"]?
+                       .Attributes["data-src"]?
                        .Value;
         }
 
