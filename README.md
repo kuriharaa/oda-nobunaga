@@ -4,6 +4,10 @@
 
 discord notifier for getting announcement about new steam, gog, origin, uplay, eg giveaways.
 
+### how to add notifier to your discord server
+
+http://nobunaga.surge.sh/
+
 ### technologies
 
 * .net core
