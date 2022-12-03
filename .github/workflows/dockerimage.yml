@@ -1,20 +1,32 @@
-name: Docker Image CI
+name: deploy to railway
 
-on: [push]
+on:
+  push:
+    branches: [main]
 
 jobs:
-
-  build_giveaway-discord:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        APP_NAME: ${{ 'giveaway-discord' }}
-      run: |
-        docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-        heroku container:push web -a $APP_NAME
-        heroku container:release web -a $APP_NAME
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: use node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: install packages
+        run: yarn install --frozen-lockfile
+
+      - name: run tests
+        run: yarn test
+
+      - name: install railway
+        run: npm i -g @railway/cli
+
+      - name: deploy
+        run: railway up
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

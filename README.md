@@ -10,4 +10,4 @@ discord notifier for getting announcement about new steam, gog, origin, uplay, e
 * mongodb atlas
 * [discord-net](https://github.com/discord-net/Discord.Net)
 * docker
-* heroku
+* ~~heroku~~ railway
