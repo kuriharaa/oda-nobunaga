@@ -14,4 +14,4 @@ http://nobunaga.surge.sh/
 * mongodb atlas
 * [discord-net](https://github.com/discord-net/Discord.Net)
 * docker
-* ~~heroku~~ railway
+* ~~heroku~~ ~~railway~~ render
