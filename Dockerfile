@@ -4,7 +4,7 @@ WORKDIR /src
 COPY src/*.sln .
 COPY src/*.csproj src/
 COPY . .
-RUN dotnet restore src/GiveawayFreeSteamBot.csproj
+RUN dotnet restore src/GiveawayFreeSteamBot.csproj -p:RestoreUseSkipNonexistentTargets=false -nowarn:msb3202,nu1503
 
 # publish
 FROM build AS publish
